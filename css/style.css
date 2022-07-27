@@ -2,7 +2,7 @@
   border: 1px solid black;
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
-  grid-template-rows: 20rem 8rem 13rem;
+  grid-template-rows: 20rem 20rem 20rem;
 }
 
 #results {
@@ -12,6 +12,25 @@
   grid-row-start: 1;
   grid-row-end: 4;
 }
+
+#chart {
+  display: flex;
+  position: relative;
+  width: 700px;
+  padding: 20px;
+  border-radius: 20px;
+  border: solid 3px rgb(213, 192, 30);
+  background: rgb(157, 157, 157);
+  background-color:rgb(102, 172, 67);
+  grid-column-start: 2;
+  grid-column-end: 5;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+/* #myChart {
+  justify-self: normal;
+} */
 
 #para {
   background-color:aqua;
@@ -27,9 +46,15 @@
   grid-column-end: 5;
   grid-row-start: 1;
   grid-row-end: 2;
+  display:flex;
+  justify-content: space-between;
 }
 
-#vote1 {
+img {
+  width:340px;
+}
+
+/* #vote1 {
   background-color:aqua;
   width:200px;
   grid-column-start: 2;
@@ -54,4 +79,4 @@
   grid-column-end: 5;
   grid-row-start: 1;
   grid-row-end: 2;
-}
+} */
