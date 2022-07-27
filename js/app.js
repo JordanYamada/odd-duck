@@ -145,7 +145,7 @@ function renderChart() {
         'rgb(153, 102, 255)',
         'rgb(201, 203, 207)'
       ],
-      borderWidth: 1
+      borderWidth: 2
     },
     {
       label: 'Clicks',
@@ -162,7 +162,7 @@ function renderChart() {
         'rgb(153, 102, 255)',
         'rgb(201, 203, 207)'
       ],
-      borderWidth: 1
+      borderWidth: 2
     }
     ]
   };
@@ -173,11 +173,13 @@ function renderChart() {
     options: {
       scales: {
         x: {
+          barThickness : 150,
           grid: {
             display: false
           }
         },
         y: {
+          barThickness : 150,
           grid: {
             display: false
           },
