@@ -5,6 +5,8 @@
 let clickCount = 0;
 let clickMax = 25;
 let choiceArr = [];
+let indexArr = [];
+
 let grid = document.getElementById('grid');
 let image1 = document.querySelector('section img:first-child');
 let image2 = document.querySelector('section img:nth-child(2)');
@@ -21,22 +23,32 @@ function Choose(name, extension = 'jpg') {
 
 }
 
-// Functions
+// Functional Logic
 
 function getRandom() {
   return Math.floor(Math.random() * choiceArr.length);
 }
 
 function renderChoice() {
-  let choice1 = getRandom();
-  let choice2 = getRandom();
-  let choice3 = getRandom();
-  while ((choice1 === choice2)|| (choice2 === choice3)) {
-    choice2 = getRandom();
-    while ((choice3 === choice1) || (choice3 === choice2)) {
-      choice3 = getRandom();
+  // let choice1 = getRandom();
+  // let choice2 = getRandom();
+  // let choice3 = getRandom();
+  // while ((choice1 === choice2) || (choice2 === choice3)) {
+  //   choice2 = getRandom();
+  //   while ((choice3 === choice1)) {
+  //     choice3 = getRandom();
+  //   }
+  // }
+  while (indexArr.length < 6) {
+    let ranNum = getRandom();
+    if (!indexArr.includes(ranNum)) {
+      indexArr.push(ranNum);
     }
   }
+  let choice1 = indexArr.shift();
+  let choice2 = indexArr.shift();
+  let choice3 = indexArr.shift();
+
   image1.src = choiceArr[choice1].src;
   image1.alt = choiceArr[choice1].name;
   choiceArr[choice1].views++;
@@ -50,26 +62,32 @@ function renderChoice() {
 }
 
 function handleClick(event) {
-  if (event.target === grid) {
-    alert('Please click on an image');
-  }
-  clickCount++;
   let chosen = event.target.alt;
-  console.log(chosen);
+  if ((event.target !== image1) && (event.target !== image2) && (event.target !== image3)) {
+    alert('Please click on an image');
+  } else {
+    clickCount++;
 
-  for (let i = 0; i < choiceArr.length; i++) {
-    if (chosen === choiceArr[i].name) {
-      choiceArr[i].clicks++;
-      break;
+    console.log(chosen);
+
+    for (let i = 0; i < choiceArr.length; i++) {
+      if (chosen === choiceArr[i].name) {
+        choiceArr[i].clicks++;
+        break;
+      }
     }
+    renderChoice();
+    if (clickCount === clickMax) {
+      //   myButton.className = 'clicks-allowed';
+      grid.removeEventListener('click', handleClick);
+      //   myButton.addEventListener('click', handleButtonClick);
+      renderChart();
+    }
+    
   }
-  renderChoice();
-  // if (clickCount === clickMax) {
-  //   myButton.className = 'clicks-allowed';
-  //   grid.removeEventListener('click', handleClick);
-  //   myButton.addEventListener('click', handleButtonClick);
-  // }
+
 }
+//Executable Code
 
 let bag = new Choose('bag');
 let banana = new Choose('banana');
@@ -93,8 +111,89 @@ let wineGlass = new Choose('wine-glass');
 
 console.log(bag);
 
-choiceArr.push(bag,banana,bathroom,boots,breakfast,bubblegum,chair,cthulhu,dogDuck,dragon,pen,petSweep,scissors,shark,sweep,tauntaun,unicorn,waterCan,wineGlass);
+choiceArr.push(bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogDuck, dragon, pen, petSweep, scissors, shark, sweep, tauntaun, unicorn, waterCan, wineGlass);
 console.log(choiceArr.name);
+
+
+function renderChart() {
+
+  let choiceNames = [];
+  let choiceViews = [];
+  let choiceClicks = [];
+  for (let i = 0; i < choiceArr.length; i++) {
+    choiceNames.push(choiceArr[i].name);
+    choiceViews.push(choiceArr[i].views);
+    choiceClicks.push(choiceArr[i].clicks);
+  }
+
+  let labels = ["red", "orange", "yellow", "green"];
+
+  const data = {
+    labels: choiceNames,
+    datasets: [{
+      label: 'Views',
+      data: choiceViews,
+      backgroundColor: [
+        'rgba(8, 91, 126)'],
+
+      borderColor: [
+        'rgb(255, 99, 132)',
+        'rgb(255, 159, 64)',
+        'rgb(255, 205, 86)',
+        'rgb(75, 192, 192)',
+        'rgb(54, 162, 235)',
+        'rgb(153, 102, 255)',
+        'rgb(201, 203, 207)'
+      ],
+      borderWidth: 1
+    },
+    {
+      label: 'Clicks',
+      data: choiceClicks,
+      backgroundColor: [
+        'rgb(213, 192, 30)'
+      ],
+      borderColor: [
+        'rgb(255, 99, 132)',
+        'rgb(255, 159, 64)',
+        'rgb(255, 205, 86)',
+        'rgb(75, 192, 192)',
+        'rgb(54, 162, 235)',
+        'rgb(153, 102, 255)',
+        'rgb(201, 203, 207)'
+      ],
+      borderWidth: 1
+    }
+    ]
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      scales: {
+        x: {
+          grid: {
+            display: false
+          }
+        },
+        y: {
+          grid: {
+            display: false
+          },
+          beginAtZero: true
+        }
+      }
+    },
+  };
+
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+}
+
+
 
 renderChoice();
 grid.addEventListener('click', handleClick);
