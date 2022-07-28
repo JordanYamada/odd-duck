@@ -6,6 +6,8 @@ let clickCount = 0;
 let clickMax = 25;
 let choiceArr = [];
 let indexArr = [];
+// let Choose.tally = [];
+
 
 let grid = document.getElementById('grid');
 let image1 = document.querySelector('section img:first-child');
@@ -19,8 +21,9 @@ function Choose(name, extension = 'jpg') {
   this.src = `/images/${this.name}.${extension}`;
   this.clicks = 0;
   this.views = 0;
+  this.extension = extension;
 
-
+  choiceArr.push(this);
 }
 
 // Functional Logic
@@ -82,11 +85,38 @@ function handleClick(event) {
       grid.removeEventListener('click', handleClick);
       //   myButton.addEventListener('click', handleButtonClick);
       renderChart();
+      // for (let i = 0; i < choiceArr.length; i++) {
+      //   Choose.tally.push(choiceArr[i]);
+      updateStorage();
     }
-    
+
   }
 
 }
+
+// Local Storage Functions
+
+function updateStorage() {
+  const arrayString = JSON.stringify(choiceArr);
+  console.log(arrayString);
+  localStorage.setItem('tally', arrayString);
+
+}
+
+function getTally() {
+  // retrieve data from local storage
+  const data = localStorage.getItem('tally');
+  // convert the data (array) from a string to something that we can use in JavaScript.
+  const tallyData = JSON.parse(data);
+
+  // If this is the first time we visit the page, there will not be an array for us to use in localStorage
+  if (tallyData !== null) {
+    choiceArr = tallyData;
+    // }
+  }
+}
+
+
 //Executable Code
 
 let bag = new Choose('bag');
@@ -109,10 +139,15 @@ let unicorn = new Choose('unicorn');
 let waterCan = new Choose('water-can');
 let wineGlass = new Choose('wine-glass');
 
+
+getTally();
+
 console.log(bag);
 
-choiceArr.push(bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogDuck, dragon, pen, petSweep, scissors, shark, sweep, tauntaun, unicorn, waterCan, wineGlass);
+// choiceArr.push(bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogDuck, dragon, pen, petSweep, scissors, shark, sweep, tauntaun, unicorn, waterCan, wineGlass);
 console.log(choiceArr.name);
+
+
 
 
 function renderChart() {
@@ -173,13 +208,13 @@ function renderChart() {
     options: {
       scales: {
         x: {
-          barThickness : 150,
+          barThickness: 150,
           grid: {
             display: false
           }
         },
         y: {
-          barThickness : 150,
+          barThickness: 150,
           grid: {
             display: false
           },
