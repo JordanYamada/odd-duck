@@ -57,10 +57,10 @@ function renderChoice() {
   choiceArr[choice1].views++;
   image2.src = choiceArr[choice2].src;
   image2.alt = choiceArr[choice2].name;
-  choiceArr[choice1].views++;
+  choiceArr[choice2].views++;
   image3.src = choiceArr[choice3].src;
   image3.alt = choiceArr[choice3].name;
-  choiceArr[choice1].views++;
+  choiceArr[choice3].views++;
 
 }
 
