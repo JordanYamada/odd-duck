@@ -18,7 +18,7 @@ let image3 = document.querySelector('section img:nth-child(3)');
 
 function Choose(name, extension = 'jpg') {
   this.name = name;
-  this.src = `/images/${this.name}.${extension}`;
+  this.src = `../images/${this.name}.${extension}`;
   this.clicks = 0;
   this.views = 0;
   this.extension = extension;
